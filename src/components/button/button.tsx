@@ -7,6 +7,9 @@ const SimpleButton = styled.button`
   border-radius: 6px;
 
   color: #FFFFFF;
+  font-family: "Lab Grotesque", "Arial", sans-serif;
+  font-style: normal;
+  font-weight: 500;
   
   display: flex;
   align-items: center;
