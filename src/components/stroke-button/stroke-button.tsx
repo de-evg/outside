@@ -37,6 +37,14 @@ const SimpleButton = styled.button`
     font-size: 16px;
     line-height: 24px;
   }
+
+  #media (min-width: 1440px) {
+    width: 198px;
+    height: 56px;
+
+    font-size: 16px;
+    line-height: 24px;
+  }
 `;
 
 const SmallButton = styled(SimpleButton)`

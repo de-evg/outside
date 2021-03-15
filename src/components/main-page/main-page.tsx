@@ -9,7 +9,8 @@ const Main = styled.section`
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 320px;
+  min-width: 320px;
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -20,7 +21,11 @@ const Container = styled.div`
   box-shadow: 0px -0.11px 16.9495px rgba(183, 187, 225, 0.33);
 
   @media (min-width: 768px) {
-    width: 768px;
+    min-width: 768px;    
+  }
+
+  @media (min-width: 1440px) {
+    min-width: 1440px;    
   }
 `;
 
