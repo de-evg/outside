@@ -18,6 +18,10 @@ const Container = styled.div`
   
   background: linear-gradient(255.35deg, #DC3131 0.83%, rgba(255, 79, 79, 0) 108.93%), #FF5E56;
   box-shadow: 0px -0.11px 16.9495px rgba(183, 187, 225, 0.33);
+
+  @media (min-width: 768px) {
+    width: 768px;
+  }
 `;
 
 const MainPage: React.FC = () => {

@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const SimpleButton = styled.button`
   background: transparent;
+  filter: drop-shadow(0px 0px 44px #CFDAE7);
   border: 1px solid #FFFFFF;
   box-sizing: border-box;
   border-radius: 6px;
@@ -27,6 +28,14 @@ const SimpleButton = styled.button`
   }
   &:disabled {
     background: #BEC5CC;
+  }
+
+  #media (min-width: 768px) {
+    width: 198px;
+    height: 56px;
+
+    font-size: 16px;
+    line-height: 24px;
   }
 `;
 
