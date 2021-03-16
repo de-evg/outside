@@ -1,61 +1,27 @@
 import * as React from "react";
-import styled, { keyframes, css } from "styled-components";
-import StrokeButton from "../stroke-button/stroke-button";
+import { connect } from "react-redux";
+import { NameSpace } from "../../store/reducers/root";
+import styled from "styled-components";
+import StartPopup from "../start-popup/start-popup";
+import TaxDeduction from "../tax-deduction/tax-deduction";
 
-const Main = styled.section`  
-  overflow: hidden;
-`;
 
-const close = keyframes`
-  0% {
-    opacity: 1;    
-  }
-  100% {
-    opacity: 0; 
-    display: none;   
-  }
-`
+const Main = styled.section``;
 
-const Container = styled.div.attrs(({toggle}) => ({
-  animation: toggle && css`0.6 ${close} ease-in;`
-}))<{toggle: boolean}>`
-  margin: 0 auto;
-  min-width: 320px;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-  background: linear-gradient(255.35deg, #DC3131 0.83%, rgba(255, 79, 79, 0) 108.93%), #FF5E56;
-  box-shadow: 0px -0.11px 16.9495px rgba(183, 187, 225, 0.33);
+interface MainPageProps {
+  isStartPopupShowed: boolean
+};
 
-  animation: 
-
-  @media (min-width: 768px) {
-    min-width: 768px;    
-  }
-
-  @media (min-width: 1440px) {
-    min-width: 1440px;    
-  }
-`;
-
-const MainPage: React.FC = () => {
-  const [isShowed, setShowrdStatus] = React.useState(true);
-
-  const handleBtnClick = React.useCallback(() => {
-    setShowrdStatus(!isShowed);
-  }, [isShowed])
-
+const MainPage: React.FC<MainPageProps> = ({ isStartPopupShowed }) => {
   return (
     <Main>
-      <Container toggle={isShowed}>
-        <StrokeButton clickHandler={handleBtnClick} text="Налоговый вычет" />
-      </Container>
+      {isStartPopupShowed ? <StartPopup /> : <TaxDeduction />}
     </Main>
   );
 };
 
-export default MainPage;
+const mapStateToProps = (state: { [x: string]: { isStartPopupShowed: boolean; }; }) => ({
+  isStartPopupShowed: state[NameSpace.INTERFACE].isStartPopupShowed
+});
+
+export default connect(mapStateToProps)(MainPage);

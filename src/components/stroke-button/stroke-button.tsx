@@ -32,14 +32,14 @@ const Button = styled.button`
     background: #BEC5CC;
   }
 
-  #media (min-width: 768px) {
+  @media (min-width: 768px) {
     width: 198px;
 
     font-size: 16px;
     line-height: 24px;
   }
 
-  #media (min-width: 1440px) {
+  @media (min-width: 1440px) {
     width: 198px;
 
     font-size: 16px;
