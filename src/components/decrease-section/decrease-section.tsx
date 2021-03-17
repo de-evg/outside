@@ -12,8 +12,9 @@ const Container = styled.div`
 const Title = styled.p`
   margin: 0;
   margin-bottom: 24px; 
-  color: #000000;
-  font-family: "Lab Grotesque", "Arial", sans-serif;  
+
+  color: #000000;  
+  font-family: "LabGrotesque", "Arial", sans-serif;
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;

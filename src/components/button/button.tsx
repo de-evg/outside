@@ -9,8 +9,8 @@ const SimpleButton = styled.button`
   width: 288px;
   height: 40px;
 
-  color: #FFFFFF;
-  font-family: "Lab Grotesque", "Arial", sans-serif;
+  color: #FFFFFF;  
+  font-family: "LabGrotesque", "Arial", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;

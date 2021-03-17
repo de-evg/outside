@@ -59,7 +59,7 @@ const CheckBoxLabel = styled.label.attrs<CheckBoxLabelProps>(({htmlFor}: CheckBo
   border-bottom: 1px solid #DFE3E6;  
 
   color: #000000;
-  font-family: "Lab Grotesque", "Arial", sans-serif;
+  font-family: "LabGrotesque", "Arial", sans-serif !impotant;
   font-style: normal;
   font-size: 14px;
   line-height: 24px;

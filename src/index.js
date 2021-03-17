@@ -6,6 +6,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import root from "./store/reducers/root";
+import {GlobalStyle} from "./global-style";
 
 const store = createStore(root, composeWithDevTools());
 
@@ -13,6 +14,7 @@ ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <Normalize />
+      <GlobalStyle />
       <App />
     </React.StrictMode>
   </Provider>,

@@ -12,7 +12,7 @@ const Button = styled.button`
   min-height: 56px;
 
   color: #FFFFFF;
-  font-family: "Lab Grotesque", "Arial", sans-serif;
+  font-family: "LabGrotesque", "Arial", sans-serif;
   font-style: normal;
   font-weight: 500;
 

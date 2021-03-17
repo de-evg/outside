@@ -43,7 +43,7 @@ const TagLabel = styled.label.attrs<TagLabelProps>(({htmlFor}: TagLabelProps) =>
   border-radius: 50px; 
 
   color: #000000;
-  font-family: "Lab Grotesque", "Arial", sans-serif;
+  font-family: "LabGrotesque", "Arial", sans-serif;
   font-style: normal;
   font-size: 14px;
   line-height: 24px;

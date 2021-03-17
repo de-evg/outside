@@ -11,12 +11,13 @@ interface LabelProps {
   htmlFor: string
 };
 
-const Label = styled.label.attrs<LabelProps>(( htmlFor: LabelProps) => ({
+const Label = styled.label.attrs<LabelProps>(( {htmlFor}: LabelProps) => ({
   htmlFor
 }))`
   margin-bottom: 8px;
-  color: #000000;
-  font-family: "Lab Grotesque", "Arial", sans-serif;  
+
+  color: #000000;  
+  font-family: "LabGrotesque";
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
@@ -36,7 +37,7 @@ const Input = styled.input.attrs<InputProps>(({ placeholder, id, type }: InputPr
   margin-bottom: 6px;  
   border: 1px solid #DFE3E6;
   padding: 8px 10px;
-  font-family: "Lab Grotesque", "Arial", sans-serif;  
+  font-family: "LabGrotesque", "Arial", sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -48,7 +49,7 @@ const CalculateBtn = styled.button`
   border: none;
   background: transparent;
   color: #EA0029;
-  font-family: "Lab Grotesque", "Arial", sans-serif;  
+  font-family: "LabGrotesque", "Arial", sans-serif;
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;

@@ -5,7 +5,7 @@ import SalarySection from "../salary-section/salary-section";
 import Button from "../button/button";
 import DecreaseSection from "../decrease-section/decrease-section";
 
-const Form = styled.form`
+const Form = styled.form`  
   box-sizing: border-box;
   position: relative;
   margin: 0 auto;
@@ -34,8 +34,9 @@ const Form = styled.form`
 const Title = styled.h1` 
   margin: 0;
   margin-bottom: 12px;
-  color: #000000;
-  font-family: "Lab Grotesque", "Arial", sans-serif;
+  
+  color: #000000;  
+  font-family: "LabGrotesque", "Arial", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -50,8 +51,9 @@ const Title = styled.h1`
 const Description = styled.p`
   margin: 0;
   margin-bottom: 20px;
+
   color: #808080;
-  font-family: "Lab Grotesque", "Arial", sans-serif;
+  font-family: "LabGrotesque", "Arial", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
