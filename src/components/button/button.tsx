@@ -6,7 +6,7 @@ const SimpleButton = styled.button`
   box-shadow: 0px 0px 24px rgba(234, 0, 41, 0.33);
   border: none;
   border-radius: 6px;
-  width: 288px;
+  width: 100%;
   height: 40px;
 
   color: #FFFFFF;  
