@@ -13,8 +13,8 @@ const store = createStore(root, composeWithDevTools());
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <Normalize />
       <GlobalStyle />
+      <Normalize />  
       <App />
     </React.StrictMode>
   </Provider>,
