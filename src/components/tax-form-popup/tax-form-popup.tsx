@@ -1,8 +1,5 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import styled from "styled-components";
-import { ActionCreator } from "../../store/action";
-import { NameSpace } from "../../store/reducers/root";
 import CloseButton from "../close-button/close-button";
 import SalarySection from "../salary-section/salary-section";
 import Button from "../button/button";
@@ -10,8 +7,9 @@ import DecreaseSection from "../decrease-section/decrease-section";
 
 const Form = styled.form`
   box-sizing: border-box;
+  position: relative;
   margin: 0 auto;
-  padding: 16px;
+  padding: 32px 16px 16px 16px;
   min-width: 320px;
   width: 100%;
   min-height: 100vh;
@@ -21,6 +19,7 @@ const Form = styled.form`
  
   @media(min-width: 768px) {
     border-radius: 30px;
+    padding: 40px 32px 32px 32px;
     min-width: 453px;
     min-height: 476px;
     width: 453px;
@@ -34,7 +33,7 @@ const Form = styled.form`
 
 const Title = styled.h1` 
   margin: 0;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: #000000;
   font-family: "Lab Grotesque", "Arial", sans-serif;
   font-style: normal;
@@ -42,24 +41,27 @@ const Title = styled.h1`
   font-size: 18px;
   line-height: 24px;
  
-  @media(min - width: 768px) {
-    
-  }
-
-  @media(min - width: 1440px) {
-    
+  @media(min-width: 768px) {
+    font-size: 28px;
+    line-height: 40px; 
   }
 `;
 
 const Description = styled.p`
   margin: 0;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   color: #808080;
   font-family: "Lab Grotesque", "Arial", sans-serif;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 12px;
   line-height: 16px;  
+
+  @media (min-width: 768px) {
+    max-width: 369px;
+    font-size: 14px;
+    line-height: 24px;  
+  }
 `;
 
 const Wrapper = styled.div`
@@ -72,7 +74,7 @@ const TaxForm: React.FC = () => {
 
   return (
     <Form>
-      <CloseButton clickHandler={() => { }} />
+      <CloseButton />
       <Title>Налоговый вычет</Title>
       <Description>
         Используйте налоговый вычет чтобы погасить ипотеку досрочно.
@@ -87,15 +89,4 @@ const TaxForm: React.FC = () => {
   );
 };
 
-// const mapStateToProps = (state: { [x: string]: { isStartPopupShowed: boolean; }; }) => ({
-//   isStartPopupShowed: state[NameSpace.INTERFACE].isStartPopupShowed
-// });
-
-// const mapDispatchToProps = (dispatch: (arg0: { type: string; }) => void) => ({
-//   hidePopup() {
-//     dispatch(ActionCreator.closePopup());
-//   }
-// });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(TaxDeduction);
 export default TaxForm;

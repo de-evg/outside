@@ -1,10 +1,7 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import styled from "styled-components";
-import { ActionCreator } from "../../store/action";
-import { NameSpace } from "../../store/reducers/root";
 
-const Form = styled.form`
+const Container = styled.div`
   margin-bottom: 24px;
   display: flex;
   flex-direction: column;  
@@ -36,7 +33,7 @@ const Input = styled.input.attrs<InputProps>(({ placeholder, id, type }: InputPr
   id,
   type
 }))`
-  margin-bottom: 8px;  
+  margin-bottom: 6px;  
   border: 1px solid #DFE3E6;
   padding: 8px 10px;
   font-family: "Lab Grotesque", "Arial", sans-serif;  
@@ -45,7 +42,7 @@ const Input = styled.input.attrs<InputProps>(({ placeholder, id, type }: InputPr
   line-height: 24px;
 `;
 
-const SubmitBtn = styled.button`
+const CalculateBtn = styled.button`
   padding: 0;
   display: flex;
   border: none;
@@ -65,11 +62,11 @@ const SubmitBtn = styled.button`
 
 const SalaryForm: React.FC = () => {
   return (
-    <Form>
+    <Container>
       <Label htmlFor="input-salary">Ваша зарплата в месяц</Label>
       <Input type="number" id="input-salary" placeholder={"Введите данные"} />
-      <SubmitBtn>Рассчитать</SubmitBtn>
-    </Form>
+      <CalculateBtn>Рассчитать</CalculateBtn>
+    </Container>
   );
 };
 

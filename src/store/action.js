@@ -1,9 +1,9 @@
 export const ActionType = {
-  HIDE_START_POPUP: "HIDE_START_POPUP"
+  TOGGLE_POPUP: "TOGGLE_POPUP"
 };
 
 export const ActionCreator = {
-  closePopup: () => ({
-    type: ActionType.HIDE_START_POPUP,
+  togglePopup: () => ({
+    type: ActionType.TOGGLE_POPUP,
   })
 };

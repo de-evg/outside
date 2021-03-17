@@ -2,8 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { NameSpace } from "../../store/reducers/root";
 import styled from "styled-components";
-import StartPopup from "../start-popup/start-popup";
-import TaxForm from "../tax-form/tax-form";
+import StartPage from "../start-page/start-page";
+import TaxFormPopup from "../tax-form-popup/tax-form-popup";
 
 
 const Main = styled.section`
@@ -34,19 +34,19 @@ const Container = styled.section`
 
 
 interface MainPageProps {
-  isStartPopupShowed: boolean
+  isTaxPopupShowed: boolean
 };
 
-const MainPage: React.FC<MainPageProps> = ({ isStartPopupShowed }) => {
+const MainPage: React.FC<MainPageProps> = ({ isTaxPopupShowed }) => {
   return (
     <Main>
-      {isStartPopupShowed ? <StartPopup /> : <Container><TaxForm /></Container>}
+      {!isTaxPopupShowed ? <StartPage /> : <Container><TaxFormPopup /></Container>}
     </Main>
   );
 };
 
-const mapStateToProps = (state: { [x: string]: { isStartPopupShowed: boolean; }; }) => ({
-  isStartPopupShowed: state[NameSpace.INTERFACE].isStartPopupShowed
+const mapStateToProps = (state: { [x: string]: { isTaxPopupShowed: boolean; }; }) => ({
+  isTaxPopupShowed: state[NameSpace.INTERFACE].isTaxPopupShowed
 });
 
 export default connect(mapStateToProps)(MainPage);

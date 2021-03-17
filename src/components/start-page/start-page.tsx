@@ -54,26 +54,26 @@ const FadeInContainer = styled(Container)`
 `;
 
 interface StartPopupProps {
-  isStartPopupShowed: boolean,
-  hidePopup: () => void
+  isTaxPopupShowed: boolean,
+  showPopup: () => void
 };
 
-const StartPopup: React.FC<StartPopupProps> = ({ isStartPopupShowed, hidePopup }) => {
+const StartPopup: React.FC<StartPopupProps> = ({ isTaxPopupShowed, showPopup }) => {
   const handleBtnClick = React.useCallback(() => {
-    hidePopup();
-  }, [hidePopup]);
+    showPopup();
+  }, [showPopup]);
 
   return (
     <>
       {
-        isStartPopupShowed && (
+        !isTaxPopupShowed && (
           <Container>
             <StrokeButton clickHandler={handleBtnClick} text="Налоговый вычет" />
           </Container>
         )
       }
       {
-        !isStartPopupShowed && (
+        isTaxPopupShowed && (
           <FadeInContainer>
             <StrokeButton clickHandler={handleBtnClick} text="Налоговый вычет" />
           </FadeInContainer>
@@ -83,13 +83,13 @@ const StartPopup: React.FC<StartPopupProps> = ({ isStartPopupShowed, hidePopup }
   );
 };
 
-const mapStateToProps = (state: { [x: string]: { isStartPopupShowed: boolean; }; }) => ({
-  isStartPopupShowed: state[NameSpace.INTERFACE].isStartPopupShowed
+const mapStateToProps = (state: { [x: string]: { isTaxPopupShowed: boolean; }; }) => ({
+  isTaxPopupShowed: state[NameSpace.INTERFACE].isTaxPopupShowed
 });
 
 const mapDispatchToProps = (dispatch: (arg0: { type: string; }) => void) => ({
-  hidePopup() {
-    dispatch(ActionCreator.closePopup());
+  showPopup() {
+    dispatch(ActionCreator.togglePopup());
   }
 });
 

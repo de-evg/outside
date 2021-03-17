@@ -1,8 +1,12 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
+import { ActionCreator } from "../../store/action";
 
 const Button = styled.button`
-  position: relative;
+  position: absolute;
+  top: 16px;
+  right: 16px;
   align-self: flex-end;
   background: transparent;
   border: none; 
@@ -42,16 +46,45 @@ const Button = styled.button`
   }
 
   @media (min-width: 768px) {
+    width: 40px;
+    height: 40px;
+
+    right: 12px;
+
+    &:before {      
+      width: 25px;
+      height: 4px;      
+    }
+
+    &:after {      
+      width: 25px;
+      height: 4px;      
+    }
   }
 
-  @media (min-width: 1440px) {    
+  @media (min-width: 1440px) {   
+    right: 16px; 
   }
 `;
 
-interface CloseButtonProps {  
-  clickHandler: () => void
-};
+interface CloseButtonPopup {
+  closePopup: () => void;
+}
 
-const CloseButton: React.FC<CloseButtonProps> = ({ clickHandler }: CloseButtonProps) => <Button onClick={clickHandler} />
+const CloseButton: React.FC<CloseButtonPopup> = ({closePopup}: CloseButtonPopup) => {
+  const handleClick = React.useCallback((evt) => {
+    evt.preventDefault();
+    closePopup();
+  }, [closePopup]);
 
-export default CloseButton;
+  return <Button onClick={handleClick} />
+}
+
+const mapDispatchToProps = (dispatch: (arg0: { type: string; }) => void) => ({
+  closePopup() {
+    dispatch(ActionCreator.togglePopup());
+  }
+});
+
+export default connect(null, mapDispatchToProps)(CloseButton);
+
