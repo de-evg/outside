@@ -6,8 +6,10 @@ import { updateSalary } from "../../store/action";
 import { NameSpace } from "../../store/reducers/root";
 
 const MAX_YEARS = 30;
+const TAX_RATE = 0.13;
+const INTERVAL_BY_MONTHS = 12;
 
-const Container = styled.form`
+const Container = styled.div`
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
@@ -35,13 +37,15 @@ interface InputProps {
   placeholder: string,
   id: string,
   type: string,
-  value: number
-}
+  value: string,
+  style?: object
+};
 
-const Input = styled.input.attrs<InputProps>(({ placeholder, id, type }: InputProps) => ({
+const Input = styled.input.attrs<InputProps>(({ placeholder, id, type, style }: InputProps) => ({
   placeholder,
   id,
-  type
+  type,
+  style
 }))`
   margin-bottom: 8px;  
   border: 1px solid #DFE3E6;
@@ -50,6 +54,15 @@ const Input = styled.input.attrs<InputProps>(({ placeholder, id, type }: InputPr
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
+  &:focus {
+    border-color: #DFE3E6;
+  }
+  &:hover {
+    border-color: #000000;
+  }
+  &:error {
+    border-color: #EA0029;
+  }
 `;
 
 interface ButtonProps {
@@ -99,20 +112,23 @@ interface SalaryFormActionProps {
 };
 
 const SalaryForm: React.FC<SalaryFormProps & SalaryFormActionProps> = ({ setInputValue, taxOfRealty }: SalaryFormProps & SalaryFormActionProps) => {
-  const [_value, setValue] = React.useState(0);
-  const [_isBtnDisabled, setBtnStatus] = React.useState(true);
+  const [_value, setValue] = React.useState("0 ₽");
+  const [_isInputValid, setInputValid] = React.useState(true);
 
   React.useEffect(() => {
-    const yearsForPayment = Math.ceil(taxOfRealty / _value * 12 * 0.13);
+    const yearsForPayment = Math.ceil(taxOfRealty / +_value * INTERVAL_BY_MONTHS * TAX_RATE);
+    console.log(yearsForPayment);
     if (yearsForPayment <= MAX_YEARS) {
-      setBtnStatus(true);
+      setInputValid(false);
     } else {
-      setBtnStatus(false);
+      setInputValid(true);
     }
-  }, [_value, setBtnStatus, taxOfRealty]);
+  }, [_value, setInputValid, taxOfRealty]);
 
   const handleInputChange = React.useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(+evt.currentTarget.value);
+    const value = evt.target.value;
+    const number = value.replace(/\$|,|\./g, "");
+    setValue(number);
   }, [setValue]);
 
   const handleCalculateBtnClick = React.useCallback((evt) => {
@@ -120,11 +136,26 @@ const SalaryForm: React.FC<SalaryFormProps & SalaryFormActionProps> = ({ setInpu
     setInputValue(_value);
   }, [setInputValue, _value]);
 
+  const handleEnterPress = React.useCallback((evt: React.KeyboardEvent) => {
+    if (evt.code === 'Enter') {
+      evt.preventDefault();
+      setInputValue(_value);
+    }
+  }, [setInputValue, _value]);
+  
   return (
     <Container>
       <Label htmlFor="input-salary">Ваша зарплата в месяц</Label>
-      <Input type="number" id="input-salary" placeholder={"Введите данные"} value={_value ? _value : ""} onChange={handleInputChange} />
-      <CalculateBtn onClick={handleCalculateBtnClick} disabled={_isBtnDisabled} >Рассчитать</CalculateBtn>
+      <Input
+        title={`Максимальный срок выплат составляет ${MAX_YEARS}. Ваша зарплата должна быть не менее ${Math.floor(taxOfRealty * INTERVAL_BY_MONTHS * TAX_RATE / MAX_YEARS)}`}
+        style={{borderColor: _isInputValid ? "#DFE3E6" : "#EA0029"}}
+        type="number"
+        id="input-salary"
+        placeholder={"Введите данные"}
+        value={`${_value} ₽`}
+        onChange={handleInputChange}
+        onKeyPress={handleEnterPress} />
+      <CalculateBtn onClick={handleCalculateBtnClick} disabled={_isInputValid} >Рассчитать</CalculateBtn>
     </Container>
   );
 };
