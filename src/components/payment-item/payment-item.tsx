@@ -55,7 +55,7 @@ const CheckBoxLabel = styled.label.attrs<CheckBoxLabelProps>(({htmlFor}: CheckBo
 }))`  
   display: block;
   position: relative;  
-  padding: 18px 31px;
+  padding: 16px 31px;
   border-bottom: 1px solid #DFE3E6;  
 
   color: #000000;

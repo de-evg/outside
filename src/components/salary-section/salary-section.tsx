@@ -2,9 +2,12 @@ import * as React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
+  @media (min-width: 1440px) {
+    margin-bottom: 24px;
+  }
 `;
 
 interface LabelProps {
@@ -33,9 +36,9 @@ const Input = styled.input.attrs<InputProps>(({ placeholder, id, type }: InputPr
   id,
   type
 }))`
-  margin-bottom: 6px;  
+  margin-bottom: 8px;  
   border: 1px solid #DFE3E6;
-  padding: 8px 10px;
+  padding: 7px 10px;
   font-family: "LabGrotesque", "Arial", sans-serif;
   font-weight: 400;
   font-size: 14px;

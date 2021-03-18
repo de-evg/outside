@@ -29,6 +29,9 @@ const ContainerRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media (min-width: 768px) {
+    width: 146px;
+  }
 `;
 
 const ContainerColumn = styled.div`
@@ -42,7 +45,7 @@ const ContainerStyled = styled(ContainerColumn)`
   flex-grow: 1;
 
   @media (min-width: 768px) {
-    width: 334px;
+    width: 290px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;

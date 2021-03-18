@@ -11,6 +11,9 @@ const Title = styled.p`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
+  @media (min-width: 768px) {
+    width: 100%;  
+  }
 `;
 
 const List = styled.ul`
@@ -18,6 +21,10 @@ const List = styled.ul`
   margin-bottom: 24px;
   padding: 0;
   list-style: none;
+  @media (min-width: 768px) {
+    margin-bottom: 20px;
+  }
+
 `;
 
 const PaymentList: React.FC = () => {

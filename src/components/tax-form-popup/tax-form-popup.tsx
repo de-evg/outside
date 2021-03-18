@@ -19,7 +19,7 @@ const Form = styled.form`
  
   @media(min-width: 768px) {
     border-radius: 30px;
-    padding: 40px 32px 32px 32px;
+    padding: 32px;
     min-width: 453px;
     min-height: 476px;
     width: 453px;
@@ -33,7 +33,7 @@ const Form = styled.form`
 
 const Title = styled.h1` 
   margin: 0;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   
   color: #000000;  
   font-family: "LabGrotesque", "Arial", sans-serif;
@@ -50,7 +50,7 @@ const Title = styled.h1`
 
 const Description = styled.p`
   margin: 0;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 
   color: #808080;
   font-family: "LabGrotesque", "Arial", sans-serif;
