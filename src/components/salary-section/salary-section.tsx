@@ -37,15 +37,16 @@ interface InputProps {
   placeholder: string,
   id: string,
   type: string,
-  value: string,
+  value: number,
   style?: object
 };
 
-const Input = styled.input.attrs<InputProps>(({ placeholder, id, type, style }: InputProps) => ({
+const Input = styled.input.attrs<InputProps>(({ placeholder, id, type, style, value }: InputProps) => ({
   placeholder,
   id,
   type,
-  style
+  style,
+  value
 }))`
   margin-bottom: 8px;  
   border: 1px solid #DFE3E6;
@@ -112,7 +113,7 @@ interface SalaryFormActionProps {
 };
 
 const SalaryForm: React.FC<SalaryFormProps & SalaryFormActionProps> = ({ setInputValue, taxOfRealty }: SalaryFormProps & SalaryFormActionProps) => {
-  const [_value, setValue] = React.useState("0 ₽");
+  const [_value, setValue] = React.useState(0);
   const [_isInputValid, setInputValid] = React.useState(true);
 
   React.useEffect(() => {
@@ -126,9 +127,7 @@ const SalaryForm: React.FC<SalaryFormProps & SalaryFormActionProps> = ({ setInpu
   }, [_value, setInputValid, taxOfRealty]);
 
   const handleInputChange = React.useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
-    const value = evt.target.value;
-    const number = value.replace(/\$|,|\./g, "");
-    setValue(number);
+    setValue(+evt.target.value);
   }, [setValue]);
 
   const handleCalculateBtnClick = React.useCallback((evt) => {
@@ -152,7 +151,7 @@ const SalaryForm: React.FC<SalaryFormProps & SalaryFormActionProps> = ({ setInpu
         type="number"
         id="input-salary"
         placeholder={"Введите данные"}
-        value={`${_value} ₽`}
+        value={_value ? `${_value}` : ""}
         onChange={handleInputChange}
         onKeyPress={handleEnterPress} />
       <CalculateBtn onClick={handleCalculateBtnClick} disabled={_isInputValid} >Рассчитать</CalculateBtn>
