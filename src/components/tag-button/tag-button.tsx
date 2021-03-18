@@ -55,15 +55,16 @@ const TagLabel = styled.label.attrs<TagLabelProps>(({htmlFor}: TagLabelProps) =>
 `;
 
 interface TagButtonProps {
+  changeHandler: (evt: any) => void;
   name: string,
   value: string,
   children: string
-  isChecked?: boolean
+  isChecked: boolean
 };
 
-const TagButton: React.FC<TagButtonProps> = ({ value, name, isChecked, children }: TagButtonProps) => {
+const TagButton: React.FC<TagButtonProps> = ({ changeHandler, value, name, isChecked, children }: TagButtonProps) => {
   return (<>    
-    <TagBtn type="radio" id={value} checked={isChecked} value={value} name={name} />
+    <TagBtn onChange={changeHandler} type="radio" id={value} checked={isChecked} value={value} name={name} />
     <TagLabel htmlFor={value}>{children}</TagLabel>
   </>)
 };

@@ -4,6 +4,8 @@ import CloseButton from "../close-button/close-button";
 import SalarySection from "../salary-section/salary-section";
 import Button from "../button/button";
 import DecreaseSection from "../decrease-section/decrease-section";
+import { connect } from "react-redux";
+import { NameSpace } from "../../store/reducers/root";
 
 const Form = styled.form`  
   box-sizing: border-box;
@@ -74,7 +76,14 @@ const Wrapper = styled.div`
   justify-content: flex-end;
   flex-grow: 1;`;
 
-const TaxForm: React.FC = () => {
+interface TaxFormProps {
+  salary: number
+};
+
+const TaxForm: React.FC<TaxFormProps> = ({ salary }: TaxFormProps) => {
+  const handleClick = React.useCallback((evt) => {
+    evt.preventDefault();
+  }, []);
 
   return (
     <Form>
@@ -87,10 +96,20 @@ const TaxForm: React.FC = () => {
       <SalarySection />
       <DecreaseSection />
       <Wrapper>
-        <Button text={"Добавить"} clickHandler={() => { }} />
+        <Button text={"Добавить"} clickHandler={handleClick} isDisabled={!salary} />
       </Wrapper>
     </Form>
   );
 };
 
-export default TaxForm;
+interface ITaxFormState {
+  [x: string]: {
+    salary: number;
+  }
+};
+
+const mapStateToProps = (state: ITaxFormState) => ({
+  salary: state[NameSpace.NUMBERS].salary,
+});
+
+export default connect(mapStateToProps)(TaxForm);

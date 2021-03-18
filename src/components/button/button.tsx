@@ -28,6 +28,7 @@ const SimpleButton = styled.button`
   }
   &:disabled {
     background: #BEC5CC;
+    box-shadow: none;
   }
 
   @media (min-width: 768px) {
@@ -44,10 +45,11 @@ const SimpleButton = styled.button`
 `;
 
 interface ButtonProps {
-  text: string
-  clickHandler: () => void
+  text: string,
+  isDisabled: boolean,
+  clickHandler: (evt: any) => void
 };
 
-const Button: React.FC<ButtonProps> = ({ text, clickHandler }: ButtonProps) => <SimpleButton onClick={clickHandler}>{text}</SimpleButton>;
+const Button: React.FC<ButtonProps> = ({ text, isDisabled, clickHandler }: ButtonProps) => <SimpleButton onClick={clickHandler} disabled={isDisabled}>{text}</SimpleButton>;
 
 export default Button;

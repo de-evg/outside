@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import styled, { keyframes } from "styled-components";
-import { ActionCreator } from "../../store/action";
+import { togglePopup } from "../../store/action";
 import { NameSpace } from "../../store/reducers/root";
 import StrokeButton from "../stroke-button/stroke-button";
 
@@ -89,7 +89,7 @@ const mapStateToProps = (state: { [x: string]: { isTaxPopupShowed: boolean; }; }
 
 const mapDispatchToProps = (dispatch: (arg0: { type: string; }) => void) => ({
   showPopup() {
-    dispatch(ActionCreator.togglePopup());
+    dispatch(togglePopup());
   }
 });
 

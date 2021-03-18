@@ -8,13 +8,24 @@ interface CheckBoxInputProps {
   name: string
 };
 
-const CheckBoxInput = styled.input.attrs<CheckBoxInputProps>(({type,  value, name, checked}: CheckBoxInputProps) => ({
+const CheckBoxInput = styled.input.attrs<CheckBoxInputProps>(({ type, value, name, checked }: CheckBoxInputProps) => ({
   type,
   checked,
   value,
   name
 }))`
-  display: none;  
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+  
+  &:focus+label {
+    outline: 2px solid #000000;
+  }
   &+label:before {
     dispaly: flex;
     box-sizing: border-box;
@@ -50,7 +61,7 @@ interface CheckBoxLabelProps {
   htmlFor: string,
 };
 
-const CheckBoxLabel = styled.label.attrs<CheckBoxLabelProps>(({htmlFor}: CheckBoxLabelProps) => ({
+const CheckBoxLabel = styled.label.attrs<CheckBoxLabelProps>(({ htmlFor }: CheckBoxLabelProps) => ({
   htmlFor
 }))`  
   display: block;
@@ -77,16 +88,16 @@ const YearWrapper = styled.span`
 interface PaymentItemProps {
   name: string,
   value: number,
-  children: string
-  isChecked?: boolean
+  isChecked?: boolean,
+  id: number
 };
 
-const PaymentItem: React.FC<PaymentItemProps> = ({ value, name, isChecked, children }: PaymentItemProps) => {
-  return (<>    
-    <CheckBoxInput type="checkbox" id={name}  value={value} name={name} />
+const PaymentItem: React.FC<PaymentItemProps> = ({ value, name, isChecked, id }: PaymentItemProps) => {
+  return (<>
+    <CheckBoxInput type="checkbox" id={name} value={value} name={name} />
     <CheckBoxLabel htmlFor={name}>
-      <AmountWrapper>78000</AmountWrapper>
-      <YearWrapper> в 1-ый год</YearWrapper>
+      <AmountWrapper>{value}</AmountWrapper>
+      <YearWrapper> {id === 2 ? "во" : "в"} {id}-й год</YearWrapper>
     </CheckBoxLabel>
   </>);
 };

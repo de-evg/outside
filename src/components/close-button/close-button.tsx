@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { ActionCreator } from "../../store/action";
+import { resetDecrease, resetNumbers, togglePopup } from "../../store/action";
 
 const Button = styled.button`
   position: absolute;
@@ -68,13 +68,13 @@ const Button = styled.button`
 `;
 
 interface CloseButtonPopup {
-  closePopup: () => void;
-}
+  closePopup: () => void, 
+};
 
-const CloseButton: React.FC<CloseButtonPopup> = ({closePopup}: CloseButtonPopup) => {
+const CloseButton: React.FC<CloseButtonPopup> = ({ closePopup }: CloseButtonPopup) => {
   const handleClick = React.useCallback((evt) => {
-    evt.preventDefault();
-    closePopup();
+    evt.preventDefault();    
+    closePopup();    
   }, [closePopup]);
 
   return <Button onClick={handleClick} />
@@ -82,9 +82,10 @@ const CloseButton: React.FC<CloseButtonPopup> = ({closePopup}: CloseButtonPopup)
 
 const mapDispatchToProps = (dispatch: (arg0: { type: string; }) => void) => ({
   closePopup() {
-    dispatch(ActionCreator.togglePopup());
+    dispatch(togglePopup());
+    dispatch(resetDecrease());
+    dispatch(resetNumbers());
   }
 });
 
 export default connect(null, mapDispatchToProps)(CloseButton);
-
