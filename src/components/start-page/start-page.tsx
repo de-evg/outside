@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { togglePopup } from "../../store/action";
 import { NameSpace } from "../../store/reducers/root";
 import StrokeButton from "../stroke-button/stroke-button";
@@ -27,38 +27,12 @@ const Container = styled.div`
   }
 `;
 
-const fadeIn = keyframes`
-  0% {
-    opacity: 1;
-  }
-
-  35% {
-    opacity: 0;
-  }
-
-  100% {
-    position: absolute;
-    clip: rect(1px 1px 1px 1px);
-    clip: rect(1px, 1px, 1px, 1px);
-    padding: 0 !important;
-    border: 0 !important;
-    height: 1px !important;
-    width: 1px !important;
-    overflow: hidden; 
-    opacity: 0;   
-  }
-`;
-
-const FadeInContainer = styled(Container)`
-  animation: 1.6s ${fadeIn} ease-in both;
-`;
-
-interface StartPopupProps {
+interface IStartPopupProps {
   isTaxPopupShowed: boolean,
   showPopup: () => void
 };
 
-const StartPopup: React.FC<StartPopupProps> = ({ isTaxPopupShowed, showPopup }) => {
+const StartPopup: React.FC<IStartPopupProps> = ({ isTaxPopupShowed, showPopup }: IStartPopupProps) => {
   const handleBtnClick = React.useCallback(() => {
     showPopup();
   }, [showPopup]);
@@ -70,13 +44,6 @@ const StartPopup: React.FC<StartPopupProps> = ({ isTaxPopupShowed, showPopup }) 
           <Container>
             <StrokeButton clickHandler={handleBtnClick} text="Налоговый вычет" />
           </Container>
-        )
-      }
-      {
-        isTaxPopupShowed && (
-          <FadeInContainer>
-            <StrokeButton clickHandler={handleBtnClick} text="Налоговый вычет" />
-          </FadeInContainer>
         )
       }
     </>

@@ -1,6 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { AnyAction, Dispatch } from "redux";
 import styled from "styled-components";
+import { gaussRound } from "../../helpers/round";
+import { addPaymentByYear, removePaymentByYear } from "../../store/action";
 import { NameSpace } from "../../store/reducers/root";
 import PaymentItem from "../payment-item/payment-item";
 
@@ -28,15 +31,16 @@ const List = styled.ul`
   @media (min-width: 768px) {
     margin-bottom: 20px;
   }
-
 `;
 
-interface IPaymentList {
+interface IPaymentListProps {
   taxOfSalary: number;
   taxOfRealty: number;
+  addPayment: (x: { [y: string]: number }) => void
+  removePayment: (x: { [y: string]: number }) => void
 };
 
-const PaymentList: React.FC<IPaymentList> = ({ taxOfSalary, taxOfRealty }: IPaymentList) => {
+const PaymentList: React.FC<IPaymentListProps> = ({ taxOfSalary, taxOfRealty, addPayment, removePayment }: IPaymentListProps) => {
   const [payments, setPayments] = React.useState(DEFAULT_PAYMENTS);
 
   React.useEffect(() => {
@@ -46,8 +50,8 @@ const PaymentList: React.FC<IPaymentList> = ({ taxOfSalary, taxOfRealty }: IPaym
         return () => {
           balanceTaxOfSalary = balanceTaxOfSalary - taxOfSalary;
           return balanceTaxOfSalary >= 0
-            ? taxOfSalary
-            : taxOfRealty % taxOfSalary;
+            ? gaussRound(taxOfSalary, 0)
+            : gaussRound(taxOfRealty % taxOfSalary, 0);
         };
       };
       const payment = getPaymentValue(taxOfRealty, taxOfSalary);
@@ -59,10 +63,17 @@ const PaymentList: React.FC<IPaymentList> = ({ taxOfSalary, taxOfRealty }: IPaym
       setPayments(newPayments);
     }
   }, [setPayments, taxOfRealty, taxOfSalary]);
+
+  const handleChangeCheckBox = React.useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = evt.target;
+    evt.target.checked ? addPayment({ [name]: +value }) : removePayment({ [name]: +value })
+
+  }, [addPayment, removePayment]);
+
   return (<>
     <Title>Итого можете внести в качестве досрочных:</Title>
     <List>
-      {payments.map((payment, i) => <PaymentItem value={payment} name={`year-${i + 1}`} isChecked={true} id={i + 1} key={`${i}-list`} />)}
+      {payments.map((payment, i) => <PaymentItem clickHandler={handleChangeCheckBox} value={payment} name={`year-${i + 1}`} id={i + 1} key={`list-${i}-${payment}`} />)}
     </List>
   </>)
 };
@@ -79,4 +90,13 @@ const mapStateToProps = (state: IPaymentListState) => ({
   taxOfRealty: state[NameSpace.NUMBERS].taxOfRealty
 });
 
-export default connect(mapStateToProps)(PaymentList);
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
+  addPayment(paymentByYear: { [x: string]: number }) {
+    dispatch(addPaymentByYear(paymentByYear));
+  },
+  removePayment(paymentByYear: { [x: string]: number }) {
+    dispatch(removePaymentByYear(paymentByYear));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentList);

@@ -47,12 +47,12 @@ const Button = styled.button`
   }
 `;
 
-interface ButtonProps {
+interface IButtonProps {
   text: string,
   clickHandler: () => void
 };
 
-const StrokeButton: React.FC<ButtonProps> = ({ text, clickHandler }: ButtonProps) => {
+const StrokeButton: React.FC<IButtonProps> = ({ text, clickHandler }: IButtonProps) => {
   return (
     <Button onClick={clickHandler}>{text}</Button>
   );

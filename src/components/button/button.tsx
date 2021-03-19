@@ -44,12 +44,12 @@ const SimpleButton = styled.button`
   }
 `;
 
-interface ButtonProps {
+interface IButtonProps {
   text: string,
   isDisabled: boolean,
   clickHandler: (evt: any) => void
 };
 
-const Button: React.FC<ButtonProps> = ({ text, isDisabled, clickHandler }: ButtonProps) => <SimpleButton onClick={clickHandler} disabled={isDisabled}>{text}</SimpleButton>;
+const Button: React.FC<IButtonProps> = ({ text, isDisabled, clickHandler }: IButtonProps) => <SimpleButton onClick={clickHandler} disabled={isDisabled}>{text}</SimpleButton>;
 
 export default Button;

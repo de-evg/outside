@@ -62,12 +62,12 @@ const ContainerStyled = styled(ContainerColumn)`
   }
 `;
 
-interface DecreaseSectionPopup {
+interface IDecreaseSectionPopup {
   decreaseBy: string;
-  toggle: (evt: any) => void;
+  toggle: (value: string) => void;
 };
 
-const DecreaseSection: React.FC<DecreaseSectionPopup> = ({ decreaseBy, toggle }: DecreaseSectionPopup) => {
+const DecreaseSection: React.FC<IDecreaseSectionPopup> = ({ decreaseBy, toggle }: IDecreaseSectionPopup) => {
   const handleTagBtnClick = React.useCallback((evt) => {    
     toggle(evt.target.value);
   }, [toggle]);
@@ -88,11 +88,11 @@ const DecreaseSection: React.FC<DecreaseSectionPopup> = ({ decreaseBy, toggle }:
   );
 };
 
-interface DecreaseSectionState {
+interface IDecreaseSectionState {
   [x: string]: { decreaseBy: string; }
 };
 
-const mapStateToProps = (state: DecreaseSectionState) => ({
+const mapStateToProps = (state: IDecreaseSectionState) => ({
   decreaseBy: state[NameSpace.INTERFACE].decreaseBy
 });
 

@@ -6,6 +6,6 @@ export const GlobalStyle = createGlobalStyle`
   ${fontFace("LabGrotesque", "LabGrotesque-Medium", 500, "normal")}
 
   * {
-    font-family: "LabGrotesque", "Arial", sans-serif;
+    font-family: "LabGrotesque", "Arial", sans-serif;    
   }
 `;

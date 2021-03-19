@@ -4,6 +4,7 @@ import { NameSpace } from "../../store/reducers/root";
 import styled from "styled-components";
 import StartPage from "../start-page/start-page";
 import TaxFormPopup from "../tax-form-popup/tax-form-popup";
+import ResultPopup from "../result-popup/result-popup";
 
 
 const Main = styled.div`
@@ -32,20 +33,26 @@ const Container = styled.section`
 `;
 
 
-interface MainPageProps {
-  isTaxPopupShowed: boolean
+interface IMainPageProps {
+  isTaxPopupShowed: boolean,
+  isStartPopupShowed: boolean,
+  isResultShowed: boolean,
 };
 
-const MainPage: React.FC<MainPageProps> = ({ isTaxPopupShowed }) => {
+const MainPage: React.FC<IMainPageProps> = ({ isStartPopupShowed, isTaxPopupShowed, isResultShowed }: IMainPageProps) => {
   return (
     <Main>
-      {!isTaxPopupShowed ? <StartPage /> : <Container><TaxFormPopup /></Container>}
+      {isStartPopupShowed ? <StartPage /> : null}
+      {isTaxPopupShowed ? <Container><TaxFormPopup /></Container> : null}
+      {isResultShowed ? <Container><ResultPopup /></Container> : null}
     </Main>
   );
 };
 
-const mapStateToProps = (state: { [x: string]: { isTaxPopupShowed: boolean; }; }) => ({
-  isTaxPopupShowed: state[NameSpace.INTERFACE].isTaxPopupShowed
+const mapStateToProps = (state: { [x: string]: IMainPageProps; }) => ({
+  isTaxPopupShowed: state[NameSpace.INTERFACE].isTaxPopupShowed,
+  isStartPopupShowed: state[NameSpace.INTERFACE].isStartPopupShowed,
+  isResultShowed: state[NameSpace.INTERFACE].isResultShowed,
 });
 
 export default connect(mapStateToProps)(MainPage);

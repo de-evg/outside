@@ -2,15 +2,20 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { AnyAction, Dispatch } from "redux";
 import styled from "styled-components";
-import { updateSalary } from "../../store/action";
+import { updateSalary, resetPayments } from "../../store/action";
 import { NameSpace } from "../../store/reducers/root";
 
 const MAX_YEARS = 30;
 const TAX_RATE = 0.13;
 const INTERVAL_BY_MONTHS = 12;
+const CharCode = {
+  ENTER: 13
+};
+
 
 const Container = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: 16px;  
+  position: relative;
   display: flex;
   flex-direction: column;
   @media (min-width: 1440px) {
@@ -39,14 +44,16 @@ interface InputProps {
   type: string,
   value: number,
   style?: object
+  ref: object
 };
 
-const Input = styled.input.attrs<InputProps>(({ placeholder, id, type, style, value }: InputProps) => ({
+const Input = styled.input.attrs<InputProps>(({ placeholder, id, type, style, value, ref }: InputProps) => ({
   placeholder,
   id,
   type,
   style,
-  value
+  value,
+  ref
 }))`
   margin-bottom: 8px;  
   border: 1px solid #DFE3E6;
@@ -64,6 +71,22 @@ const Input = styled.input.attrs<InputProps>(({ placeholder, id, type, style, va
   &:error {
     border-color: #EA0029;
   }
+  &:invalid+p {
+    diplay: block;
+  }
+`;
+
+const MessageOnInvalidInput = styled.p`
+  margin: 0;
+  diplay: none;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  font-family: "LabGrotesque", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EA0029;
 `;
 
 interface ButtonProps {
@@ -102,59 +125,80 @@ const CalculateBtn = styled.button.attrs<ButtonProps>(({
   }
 `;
 
-interface SalaryFormProps {
+interface ISalaryFormProps {
   salary: number;
   taxOfRealty: number;
   taxOfSalary: number;
-};
-
-interface SalaryFormActionProps {
   setInputValue: any;
 };
 
-const SalaryForm: React.FC<SalaryFormProps & SalaryFormActionProps> = ({ setInputValue, taxOfRealty }: SalaryFormProps & SalaryFormActionProps) => {
-  const [_value, setValue] = React.useState(0);
-  const [_isInputValid, setInputValid] = React.useState(true);
+const SalaryForm: React.FC<ISalaryFormProps> = ({ setInputValue, taxOfRealty }: ISalaryFormProps) => {
+  const inputRef = React.createRef<HTMLInputElement>();
+  const [_value, setValue] = React.useState<number>(0);
+  const [inputCaretPos, setInputCaretPos] = React.useState<{start: number | null, end: number | null}>({start: 0, end: 0});
+  const [_isInputValid, setInputValid] = React.useState<boolean | null>(null);
 
   React.useEffect(() => {
-    const yearsForPayment = Math.ceil(taxOfRealty / +_value * INTERVAL_BY_MONTHS * TAX_RATE);
-    console.log(yearsForPayment);
-    if (yearsForPayment <= MAX_YEARS) {
-      setInputValid(false);
-    } else {
-      setInputValid(true);
+    if (+_value) {
+      const yearsForPayment = Math.ceil(taxOfRealty / (+_value * INTERVAL_BY_MONTHS * TAX_RATE));
+      if (yearsForPayment <= MAX_YEARS) {
+        setInputValid(true);
+      } else {
+        setInputValid(false);
+      }
     }
   }, [_value, setInputValid, taxOfRealty]);
 
+  React.useEffect(() => {
+    if (_value) {
+      inputRef.current!.selectionStart = inputRef.current!.selectionEnd = inputCaretPos.start!;
+    }
+  }, [_value, inputRef, inputCaretPos]);
+
   const handleInputChange = React.useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(+evt.target.value);
+    const inputValue = evt.target.value.split(" ")[0];
+    setValue(+inputValue);    
+    const start = evt.target!.selectionStart;
+    const end = evt.target!.selectionEnd;
+    setInputCaretPos({start, end})    
   }, [setValue]);
+
+  const handleInputFocus = React.useCallback((evt) => {
+    const start = evt.target.value.length - 2;
+    const end = evt.target.value.length - 2;
+    setInputCaretPos({start, end}) 
+  }, [setInputCaretPos]);
+
+  const handleEnterPress = React.useCallback((evt: React.KeyboardEvent) => {
+    if (evt.charCode === CharCode.ENTER) {
+      evt.preventDefault();
+      setInputValue(_value);
+    }
+  }, [setInputValue, _value]);
 
   const handleCalculateBtnClick = React.useCallback((evt) => {
     evt.preventDefault();
     setInputValue(_value);
   }, [setInputValue, _value]);
 
-  const handleEnterPress = React.useCallback((evt: React.KeyboardEvent) => {
-    if (evt.code === 'Enter') {
-      evt.preventDefault();
-      setInputValue(_value);
-    }
-  }, [setInputValue, _value]);
-  
+
+
   return (
     <Container>
       <Label htmlFor="input-salary">Ваша зарплата в месяц</Label>
       <Input
-        title={`Максимальный срок выплат составляет ${MAX_YEARS}. Ваша зарплата должна быть не менее ${Math.floor(taxOfRealty * INTERVAL_BY_MONTHS * TAX_RATE / MAX_YEARS)}`}
-        style={{borderColor: _isInputValid ? "#DFE3E6" : "#EA0029"}}
-        type="number"
+        ref={inputRef}
+        title={`Максимальный срок выплат составляет ${MAX_YEARS} лет. Ваша зарплата должна быть не менее ${Math.ceil(taxOfRealty / (INTERVAL_BY_MONTHS * TAX_RATE * MAX_YEARS))} ₽`}
+        style={{ borderColor: _isInputValid || _isInputValid === null ? "#DFE3E6" : "#EA0029" }}
+        type="text"
         id="input-salary"
         placeholder={"Введите данные"}
-        value={_value ? `${_value}` : ""}
+        value={_value ? `${_value} ₽` : ""}
         onChange={handleInputChange}
-        onKeyPress={handleEnterPress} />
-      <CalculateBtn onClick={handleCalculateBtnClick} disabled={_isInputValid} >Рассчитать</CalculateBtn>
+        onKeyPress={handleEnterPress}
+        onFocus={handleInputFocus} />
+      {!(_isInputValid || _isInputValid === null) ? <MessageOnInvalidInput>Поле обязательное для заполнения</MessageOnInvalidInput> : null}
+      <CalculateBtn onClick={handleCalculateBtnClick} disabled={!(_isInputValid || _isInputValid === null)} >Рассчитать</CalculateBtn>
     </Container>
   );
 };
@@ -175,7 +219,8 @@ const mapStateToProps = (state: ITaxFormState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
   setInputValue(value: { value: string }) {
-    dispatch(updateSalary(value));
+    dispatch(resetPayments());
+    dispatch(updateSalary(value)); 
   }
 });
 

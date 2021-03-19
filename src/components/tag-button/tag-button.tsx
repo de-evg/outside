@@ -1,20 +1,31 @@
 import * as React from "react";
 import styled from "styled-components";
 
-interface TagRadioBtnProps {
+interface ITagRadioBtnProps {
   type: string,
   checked?: boolean,
   value: string,
   name: string
 };
 
-const TagBtn = styled.input.attrs<TagRadioBtnProps>(({type,  value, name, checked}: TagRadioBtnProps) => ({
+const TagBtn = styled.input.attrs<ITagRadioBtnProps>(({ type, value, name, checked }: ITagRadioBtnProps) => ({
   type,
   checked,
   value,
   name
 }))`
-  display: none;
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+
+  &:focus+label {
+    outline: 2px solid #000000;
+  }
   &+label:hover {
     background: #DFE3E6;
   }
@@ -31,11 +42,11 @@ const TagBtn = styled.input.attrs<TagRadioBtnProps>(({type,  value, name, checke
 `;
 
 
-interface TagLabelProps {
+interface ITagLabelProps {
   htmlFor: string,
 };
 
-const TagLabel = styled.label.attrs<TagLabelProps>(({htmlFor}: TagLabelProps) => ({
+const TagLabel = styled.label.attrs<ITagLabelProps>(({ htmlFor }: ITagLabelProps) => ({
   htmlFor
 }))`
   background: #EEF0F2; 
@@ -54,16 +65,16 @@ const TagLabel = styled.label.attrs<TagLabelProps>(({htmlFor}: TagLabelProps) =>
   justify-content: center;
 `;
 
-interface TagButtonProps {
-  changeHandler: (evt: any) => void;
+interface ITagButtonProps {
+  changeHandler: (evt: React.ChangeEvent<HTMLInputElement>) => void;
   name: string,
   value: string,
   children: string
   isChecked: boolean
 };
 
-const TagButton: React.FC<TagButtonProps> = ({ changeHandler, value, name, isChecked, children }: TagButtonProps) => {
-  return (<>    
+const TagButton: React.FC<ITagButtonProps> = ({ changeHandler, value, name, isChecked, children }: ITagButtonProps) => {
+  return (<>
     <TagBtn onChange={changeHandler} type="radio" id={value} checked={isChecked} value={value} name={name} />
     <TagLabel htmlFor={value}>{children}</TagLabel>
   </>)

@@ -6,6 +6,8 @@ import Button from "../button/button";
 import DecreaseSection from "../decrease-section/decrease-section";
 import { connect } from "react-redux";
 import { NameSpace } from "../../store/reducers/root";
+import { showResult } from "../../store/action";
+import { AnyAction, Dispatch } from "redux";
 
 const Form = styled.form`  
   box-sizing: border-box;
@@ -76,14 +78,16 @@ const Wrapper = styled.div`
   justify-content: flex-end;
   flex-grow: 1;`;
 
-interface TaxFormProps {
-  salary: number
+interface ITaxFormProps {
+  salary: number;
+  showResultPopup: () => void;
 };
 
-const TaxForm: React.FC<TaxFormProps> = ({ salary }: TaxFormProps) => {
+const TaxForm: React.FC<ITaxFormProps> = ({ salary, showResultPopup }: ITaxFormProps) => {
   const handleClick = React.useCallback((evt) => {
     evt.preventDefault();
-  }, []);
+    showResultPopup();
+  }, [showResultPopup]);
 
   return (
     <Form>
@@ -112,4 +116,10 @@ const mapStateToProps = (state: ITaxFormState) => ({
   salary: state[NameSpace.NUMBERS].salary,
 });
 
-export default connect(mapStateToProps)(TaxForm);
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
+  showResultPopup() {
+    dispatch(showResult());    
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaxForm);

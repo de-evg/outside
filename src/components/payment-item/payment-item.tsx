@@ -1,14 +1,26 @@
 import * as React from "react";
 import styled from "styled-components";
 
-interface CheckBoxInputProps {
+const PaymentLenght = {
+  FOUR: 4,
+  FIVE: 5,
+  SIX: 6
+};
+
+const LenghtOfHeadPyment = {
+  ONE: 1,
+  TWO: 2,
+  THREE: 3
+};
+
+interface ICheckBoxInputProps {
   type: string,
-  checked?: boolean,
+  checked: boolean,
   value: string,
   name: string
 };
 
-const CheckBoxInput = styled.input.attrs<CheckBoxInputProps>(({ type, value, name, checked }: CheckBoxInputProps) => ({
+const CheckBoxInput = styled.input.attrs<ICheckBoxInputProps>(({ type, value, name, checked }: ICheckBoxInputProps) => ({
   type,
   checked,
   value,
@@ -57,11 +69,11 @@ const CheckBoxInput = styled.input.attrs<CheckBoxInputProps>(({ type, value, nam
 `;
 
 
-interface CheckBoxLabelProps {
+interface ICheckBoxLabelProps {
   htmlFor: string,
 };
 
-const CheckBoxLabel = styled.label.attrs<CheckBoxLabelProps>(({ htmlFor }: CheckBoxLabelProps) => ({
+const CheckBoxLabel = styled.label.attrs<ICheckBoxLabelProps>(({ htmlFor }: ICheckBoxLabelProps) => ({
   htmlFor
 }))`  
   display: block;
@@ -85,18 +97,45 @@ const YearWrapper = styled.span`
   color: #808080;  
 `;
 
-interface PaymentItemProps {
+interface IPaymentItemProps {
   name: string,
-  value: number,
-  isChecked?: boolean,
-  id: number
+  value: number,  
+  id: number,
+  clickHandler: (evt: React.ChangeEvent<HTMLInputElement>) => void
 };
 
-const PaymentItem: React.FC<PaymentItemProps> = ({ value, name, isChecked, id }: PaymentItemProps) => {
+const PaymentItem: React.FC<IPaymentItemProps> = ({ value, name, id, clickHandler }: IPaymentItemProps) => {
+  const [payment, setPayment] = React.useState<null | string>(null);
+
+  React.useEffect(() => {
+    const [int, dec] = value.toString().split(".");
+    const addSpace = (int: string, dec: string, headCount: number) => {
+      const head = int.slice(0, headCount);
+      const newPayment = `${head} ${int.slice(headCount)}${dec ? `.${dec}` : ""}`;
+      return newPayment
+    }
+
+    let newPayment;
+    switch (int.length) {
+      case PaymentLenght.FOUR:
+        newPayment = addSpace(int, dec, int.slice(0, LenghtOfHeadPyment.ONE).length);
+        setPayment(newPayment);
+        break;
+      case PaymentLenght.FIVE:
+        newPayment = addSpace(int, dec, +int.slice(0, LenghtOfHeadPyment.TWO).length);
+        setPayment(newPayment);
+        break;
+      case PaymentLenght.SIX:
+        newPayment = addSpace(int, dec, +int.slice(0, LenghtOfHeadPyment.THREE).length);
+        setPayment(newPayment);
+        break;
+    }
+
+  }, [setPayment, value])
   return (<>
-    <CheckBoxInput type="checkbox" id={name} value={value} name={name} />
+    <CheckBoxInput onChange={clickHandler} type="checkbox" id={name} value={value} name={name} />
     <CheckBoxLabel htmlFor={name}>
-      <AmountWrapper>{value}</AmountWrapper>
+      <AmountWrapper>{payment} рублей</AmountWrapper>
       <YearWrapper> {id === 2 ? "во" : "в"} {id}-й год</YearWrapper>
     </CheckBoxLabel>
   </>);
